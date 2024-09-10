@@ -1,0 +1,519 @@
+---
+button_card_templates: !include_dir_merge_named "../../custom_components/ui_lovelace_minimalist/__ui_minimalist__/ulm_templates/"
+
+title: "Breezhome"
+theme: "minimalist-desktop"
+background: "var(--background-image)"
+
+# views: !include_dir_merge_list "views/"
+views:
+  - title: "Dashboard"
+    path: breezhome
+    type: 'custom:grid-layout'
+    layout:
+      grid-gap: 10px 10px
+      grid-template-columns: "repeat(5, 1fr)"
+      grid-template-rows: "repeat(19, 1fr) 1fr"
+      grid-template-areas: |
+        "Column_1 Column_2 Column_3 Column_4 Column_5"
+        "Navbar Navbar Navbar Navbar Navbar"
+      padding: 15px
+    cards:
+      # Column 1
+      - type: vertical-stack
+        cards:
+          # Clock
+          - type: "custom:button-card"
+            template: custom_card_nik_clock
+            view_layout:
+              grid-area: Column_1
+          # Scenes
+          - type: "custom:button-card"
+            template: "card_scenes_welcome"
+            variables:
+              entity_1:
+                entity_id: "scene.living_room_sunset"
+                icon: "mdi:shield-home"
+                name: "Alarm"
+                color: "purple"
+              entity_2:
+                entity_id: "scene.living_room_sunset"
+                icon: "mdi:weather-sunny"
+                name: "Day"
+                color: "blue"
+              entity_3:
+                entity_id: "scene.living_room_sunset"
+                icon: "mdi:weather-night"
+                name: "Night"
+                color: "red"
+              entity_4:
+                entity_id: "scene.living_room_sunset"
+                icon: "mdi:weather-sunset"
+                name: "Movies"
+                color: "green"
+              entity_5:
+                entity_id: "scene.living_room_sunset"
+                icon: "mdi:controller"
+                name: "Games"
+                color: "yellow"
+          - type: horizontal-stack
+            cards:
+              # Person - Ronan
+              - type: "custom:button-card"
+                template: card_person
+                entity: person.ronan_hayes
+                variables:
+                  ulm_card_person_entity: person.ronan
+                  ulm_card_person_use_entity_picture: true
+                  ulm_card_person_icon: mdi:face-man
+                  ulm_card_person_zone1: zone.home
+                  ulm_card_person_zone2: zone.cso
+              # Person - Doireann
+              - type: "custom:button-card"
+                template: card_person
+                entity: person.doireann
+                variables:
+                  ulm_card_person_entity: person.doireann
+                  ulm_card_person_use_entity_picture: true
+                  ulm_card_person_icon: mdi:face-woman
+                  ulm_card_person_zone1: zone.home
+                  ulm_card_person_zone2: zone.rdj
+          - type: horizontal-stack
+            cards:
+              # Battery - Ronan
+              - type: 'custom:button-card'
+                template: card_battery
+                entity: sensor.iphone_battery_level
+                variables:
+                  ulm_card_battery_charger_type_entity_id: sensor.iphone_battery_level
+                  ulm_card_battery_battery_level_danger: 30
+                  ulm_card_battery_battery_level_warning: 80
+                  ulm_card_battery_name: iPhone
+              # Battery - Doireann
+              - type: 'custom:button-card'
+                template: card_battery
+                entity: sensor.iphone_7_battery_level
+                variables:
+                  ulm_card_battery_charger_type_entity_id: sensor.iphone_7_battery_level
+                  ulm_card_battery_battery_level_danger: 30
+                  ulm_card_battery_battery_level_warning: 80
+                  ulm_card_battery_name: iPhone
+          # Transport Title
+          - type: 'custom:button-card'
+            template: card_title
+            name: Transport
+            label: 'Train'
+          - type: horizontal-stack
+            cards:
+              # Cork to Midleton
+              - type: 'custom:button-card'
+                template: card_generic
+                entity: sensor.cork_to_midleton
+              # Midleton to Cork
+              - type: 'custom:button-card'
+                template: card_generic
+                entity: sensor.midleton_to_cork
+          # Car Subtitle
+          - type: 'custom:button-card'
+            template: card_title
+            label: 'Car'
+          - type: horizontal-stack
+            cards:
+              # Car Time
+              - type: 'custom:button-card'
+                template: card_generic
+                entity: sensor.work
+                variables:
+                  ulm_card_generic_icon: mdi:chart-bar
+              # Diesel Cost - Midleton
+              - type: 'custom:button-card'
+                template: card_generic
+                entity: sensor.circle_k
+                variables:
+                  ulm_card_generic_icon: mdi:gas-station
+          # Vacuum Title
+          - type: 'custom:button-card'
+            template: card_title
+            name: Maintenance
+            label: 'Vacuum'
+          # Roborock
+          - type: "custom:button-card"
+            template: "card_vacuum"
+            entity: "vacuum.roborock_s7"
+          # Bins Title
+          - type: 'custom:button-card'
+            template: card_title
+            label: 'Bins'
+          # Bins
+          - type: 'custom:button-card'
+            template: card_generic_swap
+            entity: sensor.upcoming_bins
+            variables:
+              ulm_card_generic_icon: mdi:delete
+
+            view_layout:
+                grid-area: Column_1
+
+      # Column 2
+      - type: vertical-stack
+        cards:
+          # Living Room Title
+          - type: 'custom:button-card'
+            template: card_title
+            name: Living Room
+            label: 'Climate'
+          # Living Room Climate
+          - type: "custom:button-card"
+            template: card_thermostat
+            entity: climate.living_room_ac
+            variables:
+              ulm_card_thermostat_enable_popup: true
+              ulm_card_thermostat_enable_collapse: false
+              ulm_card_thermostat_enable_controls: true
+              ulm_card_thermostat_enable_hvac_modes: true
+          # Temp and Humidity
+          - type: horizontal-stack
+            cards:
+              # Temperature Sensor
+              - type: 'custom:button-card'
+                template: card_graph
+                entity: sensor.velux_sensor_temperature_sensor
+                variables:
+                  ulm_card_graph_color: "var(--google-red)"
+                  ulm_card_graph_name: Temperature
+                  ulm_card_graph_entity: sensor.velux_sensor_temperature_sensor
+                  ulm_card_graph_type: fill
+                  ulm_card_graph_hours: 24
+              # Humidity Sensor
+              - type: 'custom:button-card'
+                template: card_graph
+                entity: sensor.velux_sensor_humidity_sensor
+                variables:
+                  ulm_card_graph_color: "var(--google-blue)"
+                  ulm_card_graph_name: Humidity
+                  ulm_card_graph_icon: mdi:water-percent
+                  ulm_card_graph_entity: sensor.velux_sensor_humidity_sensor
+                  ulm_card_graph_type: fill
+                  ulm_card_graph_hours: 24
+          # Co2 Title
+          - type: 'custom:button-card'
+            template: card_title
+            label: 'Atmosphere'
+          # Co2 Sensor
+          - type: 'custom:button-card'
+            template: card_graph
+            entity: sensor.velux_sensor_carbon_dioxide_sensor
+            variables:
+              ulm_card_graph_color: "var(--google-green)"
+              ulm_card_graph_name: Co2 Living Room
+              ulm_card_graph_icon: mdi:molecule-co2
+              ulm_card_graph_entity: sensor.velux_sensor_carbon_dioxide_sensor
+              ulm_card_graph_type: fill
+              ulm_card_graph_hours: 24
+          # Lights Title
+          - type: 'custom:button-card'
+            template: card_title
+            label: 'Lights'
+          # Lights
+          - type: "custom:button-card"
+            template: card_light
+            entity: light.living_room_lamps
+            variables:
+              ulm_card_light_enable_slider: true
+              ulm_card_light_enable_color: true
+              ulm_card_light_force_background_color: true
+          # Media Title
+          - type: 'custom:button-card'
+            template: card_title
+            label: 'TV'
+          # Media
+          - type: "custom:button-card"
+            template: card_media_player
+            entity: media_player.living_room_tv
+            variables:
+              ulm_card_media_player_name : LG C2
+              ulm_card_media_player_enable_popup: True
+              ulm_card_media_player_enable_volume_slider: True
+        view_layout:
+          grid-area: Column_2
+      # Column 3
+      - type: vertical-stack
+        cards:
+          # Kitchen Title
+          - type: 'custom:button-card'
+            template: card_title
+            name: Kitchen
+            label: 'Climate'
+          # Kitchen Climate
+          - type: "custom:button-card"
+            template: card_thermostat
+            entity: climate.kitchen_ac
+            variables:
+              ulm_card_thermostat_enable_popup: true
+              ulm_card_thermostat_enable_collapse: false
+              ulm_card_thermostat_enable_controls: true
+              ulm_card_thermostat_enable_hvac_modes: true
+          - type: horizontal-stack
+            cards:
+              # Temperature Sensor
+              - type: 'custom:button-card'
+                template: card_graph
+                entity: sensor.velux_sensor_temperature_sensor
+                variables:
+                  ulm_card_graph_color: "var(--google-red)"
+                  ulm_card_graph_name: Temperature
+                  ulm_card_graph_entity: sensor.velux_sensor_temperature_sensor
+                  ulm_card_graph_type: fill
+                  ulm_card_graph_hours: 24
+              # Humidity Sensor
+              - type: 'custom:button-card'
+                template: card_graph
+                entity: sensor.velux_sensor_humidity_sensor
+                variables:
+                  ulm_card_graph_color: "var(--google-blue)"
+                  ulm_card_graph_name: Humidity
+                  ulm_card_graph_icon: mdi:water-percent
+                  ulm_card_graph_entity: sensor.velux_sensor_humidity_sensor
+                  ulm_card_graph_type: fill
+                  ulm_card_graph_hours: 24
+          # Kitchen Media Title
+          - type: 'custom:button-card'
+            template: card_title
+            label: 'Kitchen Display'
+          # Kitchen Media
+          - type: "custom:button-card"
+            template: card_media_player
+            entity: media_player.office_display
+            variables:
+              ulm_card_media_player_name : Nest Hub Max
+              ulm_card_media_player_enable_art: True
+              ulm_card_media_player_enable_controls: True
+          # Lights Title
+          - type: 'custom:button-card'
+            template: card_title
+            label: 'Lights'
+          # Lights
+          - type: "custom:button-card"
+            template: card_light
+            entity: light.kitchen_ceiling_lights
+            variables:
+              ulm_card_light_enable_slider: true
+              ulm_card_light_enable_color: true
+              ulm_card_light_force_background_color: true
+          # Appliances Title
+          - type: 'custom:button-card'
+            template: card_title
+            label: 'Appliances'
+          # Top Oven
+          - type: 'custom:button-card'
+            template: card_generic
+            entity: sensor.oven_operation_state
+            variables:
+              ulm_card_generic_name: Top Oven
+              ulm_card_generic_icon: mdi:toaster-oven
+          # Dishwasher
+          - type: 'custom:button-card'
+            template: card_generic
+            entity: sensor.dishwasher_operation_state
+            variables:
+              ulm_card_generic_name: Dishwasher
+              ulm_card_generic_icon: mdi:dishwasher
+        view_layout:
+          grid-area: Column_3
+      # Column 4
+      - type: vertical-stack
+        cards:
+          # Living Room Title
+          - type: 'custom:button-card'
+            template: card_title
+            name: Weather
+            label: 'Shanagarry'
+          # Weather
+          - type: "custom:button-card"
+            template: card_weather
+            entity: weather.home
+            variables:
+              ulm_card_weather_name: "Shanagarry"
+              ulm_card_weather_primary_info:
+                - wind_speed
+                - precipitation_probability
+              ulm_card_weather_backdrop:
+                fade: true
+              ulm_custom_popup:
+                template: "popup_weather_forecast"
+                entity: weather.home
+                popup_variables:
+                    ulm_weather_popup_surpress_first_forecast: false
+            # Sun
+          - type: custom:button-card
+            template: custom_card_httpedo13_sun
+            variables:
+              language: 'en'
+          # Energy Title
+          - type: 'custom:button-card'
+            template: card_title
+            name: Energy
+            label: 'Power Usage'
+          # Power Sensor
+          - type: custom:power-flow-card-plus
+            entities:
+              grid:
+                entity:
+                  consumption: sensor.power_import
+                  production: sensor.power_export
+                  display_state: one_way
+                  color_circle: true
+              solar:
+                entity: sensor.power_generation
+              fossil_fuel_percentage:
+                entity: sensor.electricity_maps_grid_fossil_fuel_percentage
+                icon: mdi:pine-tree
+                color_icon: true
+                display_zero: true
+                name: Non Fossil
+                state_type: power
+          # Solar kWH
+          - type: 'custom:button-card'
+            template: card_title
+            label: 'Produced Today'
+          - type: horizontal-stack
+            cards:
+              # Generated
+              - type: 'custom:button-card'
+                template: card_generic
+                entity: sensor.generated_today
+                variables:
+                  ulm_card_generic_icon: mdi:solar-panel
+              # Imported
+              - type: 'custom:button-card'
+                template: card_generic
+                entity: sensor.grid_import_today
+                variables:
+                  ulm_card_generic_icon: mdi:import
+        view_layout:
+          grid-area: Column_4
+      # Column 5
+      - type: vertical-stack
+        cards:
+          # Camera Title
+          - type: 'custom:button-card'
+            template: card_title
+            name: Camera
+            label: 'Front Door'
+          # Hardware Title
+          - type: 'custom:webrtc-camera'
+            streams:
+              - url: 'rtsp://192.168.0.1:7447/hT2ufIvT6OmoFZKS'
+                name: HD
+                media: video
+          # Calendar Title
+          - type: 'custom:button-card'
+            template: card_title
+            name: Calendar
+            label: 'Family'
+          # Calendar
+          - type: calendar
+            entities:
+              - calendar.family
+              - calendar.home
+          # Diesel Cost - Midleton
+          - type: 'custom:button-card'
+            template: card_generic
+            entity: sensor.ynab
+            variables:
+              ulm_card_generic_icon: mdi:currency-eur
+
+        view_layout:
+          grid-area: Column_5
+
+      # Navbar
+      - type: horizontal-stack
+        cards:
+          - type: "custom:button-card"
+            color_type: blank-card
+          
+          # Home
+          - type: custom:button-card
+            template: card_navigate
+            variables:
+              ulm_card_navigate_path: /ui-lovelace-minimalist/media
+              ulm_card_navigate_title: Home
+              ulm_card_navigate_icon: mdi:home
+              ulm_card_navigate_color: var(--color-red)
+          
+          # Kitchen
+          - type: custom:button-card
+            template: card_navigate
+            variables:
+              ulm_card_navigate_path: /ui-lovelace-minimalist/media
+              ulm_card_navigate_title: Kitchen
+              ulm_card_navigate_icon: mdi:fridge
+              ulm_card_navigate_color: var(--color-pink)
+
+          # Living Room
+          - type: custom:button-card
+            template: card_navigate
+            variables:
+              ulm_card_navigate_path: /ui-lovelace-minimalist/media
+              ulm_card_navigate_title: Living Room
+              ulm_card_navigate_icon: mdi:sofa
+              ulm_card_navigate_color: var(--color-purple)
+          
+          # Office
+          - type: custom:button-card
+            template: card_navigate
+            variables:
+              ulm_card_navigate_path: /ui-lovelace-minimalist/media
+              ulm_card_navigate_title: Office
+              ulm_card_navigate_icon: mdi:chair-rolling
+              ulm_card_navigate_color: var(--color-blue)
+          
+          # Bedroom
+          - type: custom:button-card
+            template: card_navigate
+            variables:
+              ulm_card_navigate_path: /ui-lovelace-minimalist/media
+              ulm_card_navigate_title: Bedroom
+              ulm_card_navigate_icon: mdi:bed-double
+              ulm_card_navigate_color: var(--color-red)
+          
+          # Media
+          - type: custom:button-card
+            template: card_navigate
+            variables:
+              ulm_card_navigate_path: /ui-lovelace-minimalist/media
+              ulm_card_navigate_title: Media
+              ulm_card_navigate_icon: mdi:play-network
+              ulm_card_navigate_color: var(--color-green)
+          
+          # Cameras
+          - type: custom:button-card
+            template: card_navigate
+            variables:
+              ulm_card_navigate_path: /ui-lovelace-minimalist/media
+              ulm_card_navigate_title: Cameras
+              ulm_card_navigate_icon: mdi:camera
+              ulm_card_navigate_color: var(--color-yellow)
+          
+          # Energy
+          - type: custom:button-card
+            template: card_navigate
+            variables:
+              ulm_card_navigate_path: /ui-lovelace-minimalist/media
+              ulm_card_navigate_title: Energy
+              ulm_card_navigate_icon: mdi:solar-panel
+              ulm_card_navigate_color: var(--color-yellow)
+          
+          # Information
+          - type: custom:button-card
+            template: card_navigate
+            variables:
+              ulm_card_navigate_path: /ui-lovelace-minimalist/media
+              ulm_card_navigate_title: Info
+              ulm_card_navigate_icon: mdi:information
+              ulm_card_navigate_color: var(--color-black)
+          - type: "custom:button-card"
+            color_type: blank-card
+
+        view_layout:
+          grid-area: Navbar
